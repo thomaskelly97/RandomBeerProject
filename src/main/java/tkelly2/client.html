@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:v-on="http://www.w3.org/1999/xhtml">
+<title>Random Beer API</title>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+
+<body style = "background-color: #5CDB95;">
+<div id = "app">
+
+    <div id = "el01" style="height:100px;position:relative;background-color:#323da6; padding:5px; border-radius:5px">
+        <h1 style = "color:white;position:absolute; left:20px">The Random Beer App</h1>
+        <button v-on:click = "btnHandler" style = "border-radius:10px;width:100px;height:75px;position:absolute; right:30px; top:10px; border:2px solid; background-color:#5CDB95; color:white">Show Another Beer</button>
+    </div>
+    <div id = "el02" style = "position:relative;margin-top:15px;margin-right:auto;background-color:white;padding:5px;border-radius:5px">
+       <pre>
+           <p style = "color:black; fontSize:25px">{{info}}</p>
+       </pre>
+
+    </div>
+    <hr>
+    <a href="http://github.com/thomaskelly97/RandomBeerAPI">Source Code</a>
+</div>
+
+
+
+</body>
+<script>
+
+    let myVue = new Vue ({
+        el: "#app",
+        data: {
+        	info: "Beers will be displayed here." //reactive element to store data
+        },
+        methods: {
+            btnHandler: () => { //handle pressing of button
+
+                let url = "http://localhost:8080/beer"; //specify url string
+                console.log("Handling button press...\n" + url);
+
+                const Req_Params = { //outline nature of request object
+                    method:"GET"
+                                    }
+                const myRequest = new Request(url,Req_Params); //build a request
+            let data;
+                fetch(myRequest) //fetch API request to server
+            .then((response) =>  response.text() ) //deal with the response
+            .then((data) =>  {
+                console.log(data);
+
+                myVue.info = data;  //update the html file through vue
+                return data;
+            }).catch(function(e){
+                console.log(e);
+            })
+
+
+
+            }
+        }
+        }
+    )
+
+
+    </script>
+</html>
